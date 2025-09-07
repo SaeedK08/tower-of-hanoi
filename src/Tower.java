@@ -1,32 +1,44 @@
-package tower_of_hanoi;
+package tower_of_hanoi.src;
 
 import java.util.Arrays;
-import tower_of_hanoi.Rod;
-import tower_of_hanoi.RodPos;
+import tower_of_hanoi.src.Rod;
+import tower_of_hanoi.src.RodPos;
 
 public class Tower {
-    private Rod[] tower;
+    private final Rod[] tower;
     private int moves;
+    private final int numOfDisks;
     
     public  Tower(int numOfDisks) {
         tower = new Rod[3];
         for(int i = 0; i < tower.length; i++) {
             tower[i] = new Rod(numOfDisks);
         }
-        DiskColor[] colors = DiskColor.values();
         for(int i = 0; i < numOfDisks; i++) {
-            tower[0].push(new Disk(numOfDisks - i, colors[i]));
+            tower[RodPos.LEFT.getValue()].push(new Disk(numOfDisks - i, i));
         }
         moves = 0;
+        this.numOfDisks = numOfDisks;
     }
-
+    public int getMoves() {
+        return this.moves;
+    }
+    public int getNumofDisks() {
+        return this.numOfDisks;
+    }
     public void initNewGame() {
-
+        this.moves = 0;
+        for(int i = 0; i < tower.length; i++) {
+            tower[i].clear();
+        }
+        for(int i = 0; i < numOfDisks; i++) {
+            tower[RodPos.LEFT.getValue()].push(new Disk(numOfDisks - i, i));
+        }
     }
     public boolean isLegalMove(RodPos currentPos, RodPos nextPos) {
         if (currentPos.equals(nextPos)) return false;
-        if (tower[currentPos.getValue()].isEmpty()) return false;
-        if (!(tower[nextPos.getValue()].canPush(tower[currentPos.getValue()].peek()))) return false; 
+        else if (tower[currentPos.getValue()].isEmpty()) return false;
+        // if (!(tower[nextPos.getValue()].canPush(tower[currentPos.getValue()].peek()))) return false; 
         else return true;
     }
     public void makeMove(RodPos currenPos, RodPos nextPos) {
@@ -39,8 +51,8 @@ public class Tower {
     public boolean isSolved() {
         return tower[RodPos.RIGHT.getValue()].isFull();
     }
-    public Disk[] getDisks(RodPos pos) {
-        Disk[] copy = tower[pos.getValue()].copyDiskArr();
+    public Disk[] getDisks(int rodIndex) {                  
+        Disk[] copy = tower[rodIndex].copyDiskArr();
         return copy;
     }
 

@@ -1,9 +1,9 @@
-package tower_of_hanoi;
+package tower_of_hanoi.src;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import tower_of_hanoi.Disk;
-import tower_of_hanoi.DiskColor;
+import tower_of_hanoi.src.Disk;
+import tower_of_hanoi.src.DiskColor;
 
 public class Rod {
     private Disk[] rod;
@@ -14,10 +14,6 @@ public class Rod {
         this.capacity = capacity;
         rod = new Disk[capacity];
         this.n = 0;
-        // for (int i = 0; i < capacity; i++) {
-        //     DiskColor[] colors  = DiskColor.values();
-        //     rod[i] = new Disk(0, colors[i]);
-        // }
     }
 
     public boolean canPush(Disk disk) {
@@ -26,27 +22,30 @@ public class Rod {
         else return false;
     }
     public boolean isEmpty() {
-        return n <= 0;
+        return n == 0;
     }
     public boolean isFull() {
-        return this.n >= this.capacity;
+        return this.n == this.capacity;
     }
     public void push(Disk disk) {
         if (canPush(disk)) {
             rod[n++] = disk;
         }
         else {
-            throw new IllegalStateException(isFull() ? "Rod is full" : "Disk is bigger than the one at the top");
+            throw new IllegalStateException(isFull() ? "Rod is full" : disk + "] is bigger than the one at the top");
         }
     }
     public Disk pop () {
         if (isEmpty()) throw new IllegalStateException("The rod is empty");
         Disk poped = rod[n-1];                          
-        // for(int i = n-1; i < n; i++) {
-        //     rod[i] = rod[i-1];
-        // }
         rod[--n] = null;
         return poped;
+    }
+    public void clear() {
+        this.n = 0;
+        for(int i = 0; i < rod.length; i++) {
+            rod[i] = null;
+        }
     }
     public Disk[] copyDiskArr() {
         Disk[] copy = Arrays.copyOf(rod, n);
@@ -62,11 +61,6 @@ public class Rod {
     public int getCapacityofRod() {
         return this.capacity;
     }
-
-    // @Override
-    // public String toString() {
-    //     return "Rod [rod=" + Arrays.toString(rod) + ", n=" + n + ", capacity=" + capacity + "]";
-    // }
 
     @Override
     public String toString() {

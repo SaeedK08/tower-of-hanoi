@@ -1,4 +1,4 @@
-package tower_of_hanoi;
+package tower_of_hanoi.src;
 
 public enum RodPos {
     LEFT(0), 
