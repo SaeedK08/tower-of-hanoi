@@ -8,7 +8,7 @@ public class Tower {
     private final Rod[] tower;
     private int moves;
     private final int numOfDisks;
-    
+
     public  Tower(int numOfDisks) {
         tower = new Rod[3];
         for(int i = 0; i < tower.length; i++) {
@@ -23,7 +23,7 @@ public class Tower {
     public int getMoves() {
         return this.moves;
     }
-    public int getNumofDisks() {
+    public int getNumOfDisks() {
         return this.numOfDisks;
     }
     public void initNewGame() {
@@ -38,7 +38,7 @@ public class Tower {
     public boolean isLegalMove(RodPos currentPos, RodPos nextPos) {
         if (currentPos.equals(nextPos)) return false;
         else if (tower[currentPos.getValue()].isEmpty()) return false;
-        // if (!(tower[nextPos.getValue()].canPush(tower[currentPos.getValue()].peek()))) return false; 
+        // if (!(tower[nextPos.getValue()].canPush(tower[currentPos.getValue()].peek()))) return false;    // An extra check point
         else return true;
     }
     public void makeMove(RodPos currenPos, RodPos nextPos) {
@@ -51,8 +51,8 @@ public class Tower {
     public boolean isSolved() {
         return tower[RodPos.RIGHT.getValue()].isFull();
     }
-    public Disk[] getDisks(int rodIndex) {                  
-        Disk[] copy = tower[rodIndex].copyDiskArr();
+    public Disk[] getDisks(RodPos pos) {                  
+        Disk[] copy = tower[pos.getValue()].copyDiskArr();
         return copy;
     }
 

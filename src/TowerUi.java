@@ -12,7 +12,7 @@ public class TowerUi {
     private boolean isRunning;
 
     public TowerUi() {
-        tower = new Tower(3);           //Make it a usr input
+        tower = new Tower(5);           //Make it a usr input
         scanner = new Scanner(System.in);
         isRunning = true;
     }
@@ -71,27 +71,20 @@ public class TowerUi {
             printIllegalCommand(cmdstr);
     }
     public void printBoard() {
-        int rows = tower.getNumofDisks();
-        char[][] towersUi = new char[rows][3];
-        int rodIndex = RodPos.LEFT.getValue();
-        for(int i = 0; i < 3; i++) {
-            Disk[] rodCopy = tower.getDisks(rodIndex++);
-            for (int j = 0; j < rodCopy.length; j++) {
-                if(rodCopy.length == 0) {
-                    towersUi[j][i] = ' ';
-                    break;
-                } 
-                towersUi[j][i] = Character.forDigit(rodCopy[j].getDiskDiameter(), Character.MAX_RADIX);
-            }
+        int noOfDisks = tower.getNumOfDisks();
+        Disk[] left = tower.getDisks(RodPos.LEFT);
+        Disk[] middle = tower.getDisks(RodPos.MIDDLE);
+        Disk[] right = tower.getDisks(RodPos.RIGHT);
+
+        for (int i = noOfDisks - 1; i >= 0; i--) {
+            String row = "";
+            row += left.length <= i ? "  " : " " + left[i].getDiskDiameter();
+            row += middle.length <= i ? "  " : " " + middle[i].getDiskDiameter();
+            row += right.length <= i ? "  " : " " + right[i].getDiskDiameter();
+            System.out.println(row);
         }
-        for(int i = rows -1 ; i >= 0; i--) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(towersUi[i][j] + "  ");
-            }
-            System.out.println("\n");
-        }
-        System.out.println("=  =  =");
-        System.out.println("moves=" + tower.getMoves());
+        System.out.println(" = = = ");
+        System.out.println("moves= " + tower.getMoves());
     }
     private RodPos getRodPos(char rodChar) {
         switch (rodChar) {
